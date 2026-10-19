@@ -1,0 +1,102 @@
+transaction_id,employee_id,department,category,merchant,amount,date,status
+TXN-0001,EMP-1001,Frontend Engineering,software,Figma,45.00,2026-09-12,approved
+TXN-0002,EMP-1004,Backend Engineering,software,AWS Cloud Services,342.50,2026-09-15,approved
+TXN-0003,EMP-1007,DevOps & Infrastructure,software,Datadog,185.00,2026-08-28,approved
+TXN-0004,EMP-1010,Mobile Engineering,supplies,Apple Store,199.00,2026-09-02,approved
+TXN-0005,EMP-1013,Data & AI Platform,software,OpenAI API,250.00,2026-09-18,pending
+TXN-0006,EMP-1016,Quality Assurance & Security,software,JetBrains,65.00,2026-08-10,approved
+TXN-0007,EMP-1019,Human Resources,supplies,Office Depot,84.20,2026-09-22,approved
+TXN-0008,EMP-1022,Finance & Accounting,software,Atlassian,120.00,2026-09-05,approved
+TXN-0009,EMP-1025,Legal & Compliance,travel,Delta Air Lines,845.60,2026-08-14,returned
+TXN-0010,EMP-1028,Marketing & Growth,meals,Sweetgreen,32.40,2026-09-29,approved
+TXN-0011,EMP-1031,Sales & Business Development,travel,Marriott Hotels,620.00,2026-09-11,approved
+TXN-0012,EMP-1034,Product Management,meals,Starbucks,18.75,2026-10-01,pending
+TXN-0013,EMP-1002,Frontend Engineering,supplies,Amazon Business,42.50,2026-08-19,approved
+TXN-0014,EMP-1005,Backend Engineering,software,GitHub,21.00,2026-09-08,approved
+TXN-0015,EMP-1008,DevOps & Infrastructure,travel,Uber,46.80,2026-09-25,approved
+TXN-0016,EMP-1011,Mobile Engineering,meals,Chipotle Mexican Grill,24.15,2026-10-04,returned
+TXN-0017,EMP-1014,Data & AI Platform,software,Google Cloud,489.10,2026-08-22,approved
+TXN-0018,EMP-1017,Quality Assurance & Security,supplies,Staples,58.30,2026-09-17,approved
+TXN-0019,EMP-1020,Human Resources,meals,Panera Bread,45.60,2026-09-13,pending
+TXN-0020,EMP-1023,Finance & Accounting,supplies,Amazon Business,115.00,2026-08-30,approved
+TXN-0021,EMP-1026,Legal & Compliance,software,Slack Technologies,30.00,2026-09-20,approved
+TXN-0022,EMP-1029,Marketing & Growth,travel,United Airlines,710.20,2026-09-03,approved
+TXN-0023,EMP-1032,Sales & Business Development,meals,The Capital Grille,165.50,2026-09-27,returned
+TXN-0024,EMP-1035,Product Management,software,Figma,45.00,2026-08-16,approved
+TXN-0025,EMP-1003,Frontend Engineering,meals,DoorDash,38.90,2026-09-14,pending
+TXN-0026,EMP-1006,Backend Engineering,travel,Amtrak,135.00,2026-08-29,approved
+TXN-0027,EMP-1009,DevOps & Infrastructure,software,AWS Cloud Services,512.40,2026-09-09,approved
+TXN-0028,EMP-1012,Mobile Engineering,travel,Lyft,34.50,2026-10-02,approved
+TXN-0029,EMP-1015,Data & AI Platform,meals,Pret A Manger,19.80,2026-09-19,approved
+TXN-0030,EMP-1018,Quality Assurance & Security,travel,Hilton Garden Inn,450.00,2026-08-25,pending
+TXN-0031,EMP-1021,Human Resources,supplies,Uline Shipping Supplies,88.90,2026-09-07,approved
+TXN-0032,EMP-1024,Finance & Accounting,travel,Delta Air Lines,950.00,2026-09-16,returned
+TXN-0033,EMP-1027,Legal & Compliance,meals,Local Bistro & Cafe,55.00,2026-08-18,approved
+TXN-0034,EMP-1030,Marketing & Growth,software,Figma,90.00,2026-09-24,approved
+TXN-0035,EMP-1033,Sales & Business Development,travel,American Airlines,780.40,2026-09-10,approved
+TXN-0036,EMP-1036,Product Management,supplies,Best Buy,149.99,2026-09-21,pending
+TXN-0037,EMP-1001,Frontend Engineering,software,JetBrains,65.00,2026-08-20,approved
+TXN-0038,EMP-1004,Backend Engineering,meals,Sweetgreen,28.75,2026-09-18,approved
+TXN-0039,EMP-1007,DevOps & Infrastructure,supplies,Amazon Business,95.40,2026-10-06,approved
+TXN-0040,EMP-1010,Mobile Engineering,software,GitHub,42.00,2026-08-27,returned
+TXN-0041,EMP-1013,Data & AI Platform,travel,Marriott Hotels,580.00,2026-09-12,approved
+TXN-0042,EMP-1016,Quality Assurance & Security,meals,Starbucks,16.50,2026-09-28,approved
+TXN-0043,EMP-1019,Human Resources,travel,Airbnb,420.00,2026-08-15,pending
+TXN-0044,EMP-1022,Finance & Accounting,meals,Chipotle Mexican Grill,22.80,2026-09-04,approved
+TXN-0045,EMP-1025,Legal & Compliance,supplies,Staples,76.50,2026-09-26,approved
+TXN-0046,EMP-1028,Marketing & Growth,meals,The Capital Grille,182.00,2026-08-31,returned
+TXN-0047,EMP-1031,Sales & Business Development,travel,Uber,52.30,2026-09-15,approved
+TXN-0048,EMP-1034,Product Management,software,Atlassian,140.00,2026-09-23,approved
+TXN-0049,EMP-1002,Frontend Engineering,travel,United Airlines,640.00,2026-08-24,approved
+TXN-0050,EMP-1005,Backend Engineering,supplies,Best Buy,89.99,2026-09-30,pending
+TXN-0051,EMP-1008,DevOps & Infrastructure,meals,DoorDash,41.20,2026-09-06,approved
+TXN-0052,EMP-1011,Mobile Engineering,software,OpenAI API,120.00,2026-09-17,approved
+TXN-0053,EMP-1014,Data & AI Platform,supplies,Amazon Business,165.00,2026-08-12,approved
+TXN-0054,EMP-1017,Quality Assurance & Security,travel,Delta Air Lines,815.00,2026-09-11,returned
+TXN-0055,EMP-1020,Human Resources,software,Slack Technologies,45.00,2026-09-21,approved
+TXN-0056,EMP-1023,Finance & Accounting,travel,Amtrak,110.00,2026-08-26,pending
+TXN-0057,EMP-1026,Legal & Compliance,meals,Panera Bread,34.50,2026-09-08,approved
+TXN-0058,EMP-1029,Marketing & Growth,supplies,Office Depot,125.40,2026-10-03,approved
+TXN-0059,EMP-1032,Sales & Business Development,travel,Hilton Garden Inn,530.00,2026-09-14,approved
+TXN-0060,EMP-1035,Product Management,meals,Pret A Manger,25.60,2026-08-23,approved
+TXN-0061,EMP-1003,Frontend Engineering,supplies,Apple Store,279.00,2026-09-01,returned
+TXN-0062,EMP-1006,Backend Engineering,software,AWS Cloud Services,420.00,2026-09-16,pending
+TXN-0063,EMP-1009,DevOps & Infrastructure,travel,Lyft,28.40,2026-09-27,approved
+TXN-0064,EMP-1012,Mobile Engineering,meals,Sweetgreen,31.25,2026-08-17,approved
+TXN-0065,EMP-1015,Data & AI Platform,travel,Delta Air Lines,890.00,2026-09-19,approved
+TXN-0066,EMP-1018,Quality Assurance & Security,software,GitHub,21.00,2026-09-09,approved
+TXN-0067,EMP-1021,Human Resources,meals,Starbucks,14.20,2026-10-05,pending
+TXN-0068,EMP-1024,Finance & Accounting,supplies,Staples,62.80,2026-08-21,approved
+TXN-0069,EMP-1027,Legal & Compliance,travel,American Airlines,725.50,2026-09-22,returned
+TXN-0070,EMP-1030,Marketing & Growth,meals,Local Bistro & Cafe,68.00,2026-09-13,approved
+TXN-0071,EMP-1033,Sales & Business Development,software,Slack Technologies,60.00,2026-08-30,approved
+TXN-0072,EMP-1036,Product Management,travel,Marriott Hotels,675.00,2026-09-28,pending
+TXN-0073,EMP-1001,Frontend Engineering,meals,Chipotle Mexican Grill,26.50,2026-09-05,approved
+TXN-0074,EMP-1004,Backend Engineering,travel,Uber,54.10,2026-08-11,approved
+TXN-0075,EMP-1007,DevOps & Infrastructure,supplies,Uline Shipping Supplies,145.00,2026-09-24,approved
+TXN-0076,EMP-1010,Mobile Engineering,software,JetBrains,65.00,2026-09-07,returned
+TXN-0077,EMP-1013,Data & AI Platform,meals,Sweetgreen,29.80,2026-10-02,approved
+TXN-0078,EMP-1016,Quality Assurance & Security,travel,United Airlines,610.00,2026-08-19,pending
+TXN-0079,EMP-1019,Human Resources,software,Atlassian,80.00,2026-09-18,approved
+TXN-0080,EMP-1022,Finance & Accounting,travel,Hilton Garden Inn,490.00,2026-09-29,approved
+TXN-0081,EMP-1025,Legal & Compliance,supplies,Amazon Business,98.60,2026-08-13,approved
+TXN-0082,EMP-1028,Marketing & Growth,travel,Delta Air Lines,870.00,2026-09-25,returned
+TXN-0083,EMP-1031,Sales & Business Development,meals,The Capital Grille,174.00,2026-09-02,pending
+TXN-0084,EMP-1034,Product Management,travel,Uber,39.20,2026-09-16,approved
+TXN-0085,EMP-1002,Frontend Engineering,software,Figma,45.00,2026-08-28,approved
+TXN-0086,EMP-1005,Backend Engineering,meals,Panera Bread,33.40,2026-09-23,approved
+TXN-0087,EMP-1008,DevOps & Infrastructure,software,Google Cloud,380.00,2026-10-04,pending
+TXN-0088,EMP-1011,Mobile Engineering,supplies,Amazon Business,72.30,2026-08-14,approved
+TXN-0089,EMP-1014,Data & AI Platform,travel,Airbnb,510.00,2026-09-20,returned
+TXN-0090,EMP-1017,Quality Assurance & Security,meals,DoorDash,44.90,2026-09-10,approved
+TXN-0091,EMP-1020,Human Resources,supplies,Staples,52.10,2026-08-25,approved
+TXN-0092,EMP-1023,Finance & Accounting,software,AWS Cloud Services,295.00,2026-09-27,approved
+TXN-0093,EMP-1026,Legal & Compliance,travel,Marriott Hotels,640.00,2026-10-01,pending
+TXN-0094,EMP-1029,Marketing & Growth,meals,Pret A Manger,21.50,2026-08-16,approved
+TXN-0095,EMP-1032,Sales & Business Development,supplies,Office Depot,85.00,2026-09-12,approved
+TXN-0096,EMP-1035,Product Management,travel,United Airlines,685.00,2026-09-30,returned
+TXN-0097,EMP-1003,Frontend Engineering,travel,Lyft,31.70,2026-09-04,approved
+TXN-0098,EMP-1006,Backend Engineering,supplies,Staples,64.20,2026-08-22,approved
+TXN-0099,EMP-1009,DevOps & Infrastructure,meals,Starbucks,17.90,2026-09-21,pending
+TXN-0100,EMP-1012,Mobile Engineering,software,Datadog,210.00,2026-09-15,approved
+
