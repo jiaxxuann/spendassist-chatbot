@@ -2,14 +2,27 @@
 api/main.py — SpendAssist REST API
 
 Entry point for all HTTP interactions with the SpendAssist chatbot backend.
-Built with FastAPI; structured for later connection to the LangGraph orchestrator.
+Built with FastAPI; wired to the LangGraph orchestrator in agent/graph.py.
 """
 
 import logging
+import os
+
+from dotenv import load_dotenv
+load_dotenv()
+
+# --- DEBUG: CHECK API KEY ---
+api_key = os.getenv("GROQ_API_KEY")
+if api_key:
+    print(f"✅ API Key loaded successfully! (Starts with: {api_key[:4]}...)")
+else:
+    print("❌ ERROR: API Key is MISSING or NOT LOADED!")
+# -----------------------------
 
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 
+from agent.graph import run_agent
 from schemas import ChatRequest, ChatResponse
 
 # ---------------------------------------------------------------------------
@@ -86,18 +99,19 @@ async def health_check() -> dict:
 async def chat(request: ChatRequest) -> ChatResponse:
     """Accept a natural-language expense query and return an agent response.
 
-    **Current behaviour (placeholder):**
-    Returns a stub ``ChatResponse`` with an acknowledgement message and empty
-    ``citations`` / ``actions`` lists.  The LangGraph orchestrator will be
-    wired in here in a subsequent milestone to produce grounded, policy-aware
-    answers.
+    Delegates to the LangGraph orchestrator (``agent/graph.py``) which
+    invokes ``query_spend`` and/or ``draft_expense_claim`` as needed before
+    synthesising a policy-grounded plain-language answer.
 
-    **Future behaviour:**
-    - The agent will invoke the ``query_spend`` tool for read-only spend lookups.
-    - The agent will invoke ``draft_expense_claim`` to create draft claims that
-      await manager approval (no auto-submission).
-    - Policy citations will be returned as exact clause references (e.g.
-      ``Clause 1.2``) extracted from the RAG layer backed by ChromaDB.
+    Returns:
+        ``ChatResponse`` containing:
+
+        - ``answer``    — The agent's final plain-language response.
+        - ``citations`` — Clause IDs (e.g. "Clause 1.2") and transaction IDs
+                          found in the answer.
+        - ``actions``   — Draft claim dicts produced by ``draft_expense_claim``
+                          during this turn, each carrying
+                          ``"status": "awaiting_manager_approval"``.
 
     Raises:
         HTTPException (500): Propagated via the global exception handler for
@@ -109,26 +123,14 @@ async def chat(request: ChatRequest) -> ChatResponse:
         request.message,
     )
 
-    # -----------------------------------------------------------------------
-    # TODO: Replace this stub with the LangGraph orchestrator invocation:
-    #
-    #   from agent.graph import run_agent
-    #   result = await run_agent(session_id=request.session_id, message=request.message)
-    #   return ChatResponse(
-    #       answer=result["answer"],
-    #       citations=result["citations"],
-    #       actions=result["actions"],
-    #   )
-    # -----------------------------------------------------------------------
-
-    placeholder_answer = (
-        "Hello! SpendAssist is ready to help with your expense queries. "
-        "The AI agent orchestrator is not yet connected — check back soon."
+    result = run_agent(
+        session_id=request.session_id,
+        message=request.message,
     )
 
     return ChatResponse(
-        answer=placeholder_answer,
-        citations=[],
-        actions=[],
+        answer=result["answer"],
+        citations=result["citations"],
+        actions=result["actions"],
     )
 
