@@ -293,7 +293,7 @@ Interactive OpenAPI documentation is available at [http://localhost:8000/docs](h
 
 ## Automated Test Suite
 
-The automated suite in [`test_api.py`](./test_api.py) runs end-to-end integration tests through the live REST endpoint, covering 9 critical edge cases:
+The automated suite in [`test_api.py`](./test_api.py) runs end-to-end integration tests through the live REST endpoint, covering 11 critical edge cases:
 
 | Test Case | Objective / Edge Case | Expected Behaviour |
 |---|---|---|
@@ -306,6 +306,8 @@ The automated suite in [`test_api.py`](./test_api.py) runs end-to-end integratio
 | **7. Strict Failsafe** | Out-of-scope IT hardware request | Refuses hallucination; cites Clause 4.2 / failsafe |
 | **8. Analytics & Truncation** | Top 5 merchant ranking query | Analyzes and ranks top merchants for the department |
 | **9. Duplicate Policy** | Accidental double payment inquiry | Cites `Clause 5.2` prohibiting duplicate submissions |
+| **10. Duplicate Claim Attempt** | Memory & policy enforcement on identical drafts | Checks history, cites `Clause 5.2`, and blocks duplicate draft creation |
+| **11. Prohibited Item Guardrail** | Prohibited items (alcohol) in client dinners | Retrieves policy, cites `Clause 2.3` and refuses to draft claim |
 
 ### Running the Test Suite
 Ensure the API server is running on `http://localhost:8000`, then execute:
