@@ -1,14 +1,19 @@
 """
 agent/tools.py — LangChain tool definitions for the SpendAssist agent.
 
-Exposes two tools that the LangGraph agent can invoke:
+Exposes three tools that the LangGraph agent can invoke:
 
   query_spend          — Read-only, role-scoped lookup against transactions.csv.
   draft_expense_claim  — Write-guard: assembles a claim draft and marks it
                          "awaiting_manager_approval" without touching the CSV.
+  search_policy        — RAG lookup against the Company Z expense policy via
+                         ChromaDB; returns grounded clause text with exact
+                         clause identifiers as citations.
 
-Both tools use Pydantic schemas from schemas.py as their ``args_schema`` so
-LangGraph validates every argument before execution.
+All tools return a ``{"result": str, "citations": list[str]}`` dict so the
+graph's ``tool_node`` can uniformly extract citations from any tool response.
+The only exception is ``draft_expense_claim``, which returns a plain JSON
+string (its output is captured in ``actions_taken``, not ``citations``).
 """
 
 import csv
@@ -16,6 +21,7 @@ import json
 import logging
 from datetime import date, datetime, timedelta
 from pathlib import Path
+import re
 from typing import Optional
 
 from langchain_core.tools import tool
@@ -127,7 +133,7 @@ def query_spend(
     department: Optional[str] = None,
     category: Optional[str] = None,
     time_period: Optional[str] = None,
-) -> str:
+) -> dict:
     """Perform a pre-approved, read-only lookup of Company Z expense transactions.
 
     Use this tool whenever the user asks about existing spend data — for example:
@@ -145,17 +151,23 @@ def query_spend(
                      "this year", "last 30 days".  If omitted, all dates are included.
 
     The tool reads directly from the pre-approved transactions ledger
-    (data/transactions.csv) and never modifies any record.  It returns a
-    formatted table of matching rows together with a total spend figure.
+    (data/transactions.csv) and never modifies any record.
 
     Returns:
-        A human-readable, tabular string listing every matching transaction
-        with columns: transaction_id, employee_id, department, category,
-        merchant, amount, date, status — plus a summary row showing the total
-        record count and aggregate spend.
+        A dictionary with two keys:
 
-        If no records match the supplied filters the tool returns the string
-        "No matching transactions found for the given filters."
+        - ``"result"``    — A human-readable, tabular string listing every
+                            matching transaction with columns: transaction_id,
+                            employee_id, department, category, merchant, amount,
+                            date, status — plus a summary row showing the total
+                            record count and aggregate spend.
+        - ``"citations"`` — A list of the ``TXN-XXXX`` identifiers for every
+                            matched row (e.g. ``["TXN-0012", "TXN-0047"]``).
+                            An empty list is returned when no rows match.
+
+        The ``citations`` list is consumed by the graph's ``tool_node`` and
+        appended to the ``citations`` field of the API response so callers can
+        trace every answer back to specific ledger entries.
 
     Raises:
         FileNotFoundError: If data/transactions.csv is missing.
@@ -204,7 +216,90 @@ def query_spend(
         filtered.append(row)
 
     logger.info("query_spend returning %d row(s).", len(filtered))
-    return _format_transactions(filtered)
+
+    matching_transactions = filtered
+    formatted_text = _format_transactions(matching_transactions)
+
+    list_of_extracted_txn_ids = []
+    for row in matching_transactions:
+        row = str(row)
+        list_of_extracted_txn_ids.extend(re.findall(r'TXN-\d{4}', row))
+
+    return {"result": formatted_text, "citations": list_of_extracted_txn_ids}
+
+
+# ---------------------------------------------------------------------------
+# Tool: search_policy
+# ---------------------------------------------------------------------------
+
+@tool
+def search_policy(query: str) -> dict:
+    """Search the Company Z expense policy document for rules relevant to a query.
+
+    Use this tool whenever the user asks about expense rules, limits, or
+    whether a specific purchase is allowed — for example:
+      - "What is the hotel limit per night?"
+      - "Can I claim alcohol on a client dinner?"
+      - "Do I need approval for a $200 software subscription?"
+      - "How long do I have to submit an expense claim?"
+
+    The tool performs a semantic similarity search against the full Company Z
+    expense policy (all clauses across Sections 1–5) using a local ChromaDB
+    vector store.  It returns the most relevant clause text together with the
+    exact clause identifiers so the agent can cite them verbatim in its answer.
+
+    Args:
+        query: A natural-language question or keyword describing the policy
+               area to look up (e.g. "meal allowance per diem limit").
+
+    Returns:
+        A dictionary with two keys:
+
+        - ``"result"``    — A formatted string containing the retrieved policy
+                            clause text, with each clause prefixed by its
+                            identifier (e.g. "Clause 2.1 (Daily Per Diem): …").
+        - ``"citations"`` — A list of the exact clause identifiers that were
+                            retrieved (e.g. ``["Clause 2.1", "Clause 2.2"]``).
+                            Always append these verbatim to the final answer.
+
+    Raises:
+        RuntimeError: If the ChromaDB vector store has not been initialised.
+                      Run ``python retrieval/vector_store.py`` first.
+    """
+    logger.info("search_policy called | query='%.80s'", query)
+
+    from retrieval.vector_store import get_retriever  # deferred to avoid circular imports
+
+    retriever = get_retriever(k=3)
+    docs = retriever.invoke(query)
+
+    if not docs:
+        logger.info("search_policy: no matching clauses found.")
+        return {
+            "result": "No relevant policy clauses found for this query.",
+            "citations": [],
+        }
+
+    result_lines: list[str] = []
+    citations: list[str] = []
+
+    for doc in docs:
+        clause_id = doc.metadata.get("clause_id", "Unknown Clause")
+        # page_content already contains the full "Clause X.Y (Title): rule text"
+        result_lines.append(doc.page_content)
+        if clause_id not in citations:
+            citations.append(clause_id)
+
+    logger.info(
+        "search_policy: retrieved %d clause(s) — citations: %s",
+        len(docs),
+        citations,
+    )
+
+    return {
+        "result": "\n\n".join(result_lines),
+        "citations": citations,
+    }
 
 
 # ---------------------------------------------------------------------------
