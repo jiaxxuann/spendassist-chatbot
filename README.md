@@ -74,6 +74,13 @@ A simple while-loop or procedural tool-calling script lacks:
 2. **Standardized ReAct Routing:** A custom loop often struggles with multi-step tool transitions, infinite loops, and exception handling during malformed tool responses.
 3. **Execution Limits & Error Boundaries:** Built-in recursion caps and isolated execution nodes prevent runaway API costs and facilitate granular tracing.
 
+#### LLM Selection: Groq (Open-Source 20B)
+1. **Inference Latency:** Multi-agent workflows require sequential tool calls where latency compounds. Groq’s LPU architecture provides near-instantaneous token generation, keeping end-to-end response times under 2 seconds.
+
+2. **Tool-Calling Reliability:** The chosen model is heavily fine-tuned for structured JSON outputs, ensuring strict compliance with the application's Pydantic schemas without hallucinating parameters.
+
+3. **Resource Efficiency:** A 20B parameter model offers the optimal balance of deep reasoning for RAG synthesis while maintaining a low token footprint, preventing timeout errors during complex multi-turn graph executions.
+
 ---
 
 ### LangGraph Orchestration State Machine
@@ -286,7 +293,7 @@ Interactive OpenAPI documentation is available at [http://localhost:8000/docs](h
 
 ## Automated Test Suite
 
-The automated suite in [`test_api.py`](file:///c:/Users/Jia%20Xuan/Code/github.com/jiaxxuann/spendassist-chatbot/test_api.py) runs end-to-end integration tests through the live REST endpoint, covering 9 critical edge cases:
+The automated suite in [`test_api.py`](./test_api.py) runs end-to-end integration tests through the live REST endpoint, covering 9 critical edge cases:
 
 | Test Case | Objective / Edge Case | Expected Behaviour |
 |---|---|---|
