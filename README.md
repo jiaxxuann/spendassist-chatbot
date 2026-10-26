@@ -335,7 +335,7 @@ flowchart TD
     end
 
     subgraph Model Inference
-        ECS --> Bedrock["Groq / AWS Bedrock<br/>(Llama 3.1 70B Inference)"]
+        ECS --> Bedrock["Groq / AWS Bedrock<br/>(openai/gpt-oss-20b Inference)"]
     end
 ```
 
@@ -354,8 +354,8 @@ Assuming an average conversation consists of **3 turns**, with 800 input tokens 
 
 | Resource | Unit Cost | Usage / 1,000 Chats | Total Cost |
 |---|---|---|---|
-| **LLM Input Tokens (Llama 3.1 70B)** | $0.59 / 1M tokens | 2.4M tokens | $1.42 |
-| **LLM Output Tokens (Llama 3.1 70B)** | $0.79 / 1M tokens | 0.75M tokens | $0.59 |
+| **LLM Input Tokens (openai/gpt-oss-20b)** | $0.59 / 1M tokens | 2.4M tokens | $1.42 |
+| **LLM Output Tokens (openai/gpt-oss-20b)** | $0.79 / 1M tokens | 0.75M tokens | $0.59 |
 | **Embeddings (`all-MiniLM-L6-v2`)** | In-process CPU | Negligible (Local) | $0.00 |
 | **Compute (ECS Fargate 0.5 vCPU, 1GB RAM)** | $0.022 / hour | Shared capacity | $0.20 |
 | **Vector Store & Checkpointer** | Aurora Serverless / ElastiCache | Shared allocation | $0.35 |
