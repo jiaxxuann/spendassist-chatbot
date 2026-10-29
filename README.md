@@ -74,12 +74,12 @@ A simple while-loop or procedural tool-calling script lacks:
 2. **Standardized ReAct Routing:** A custom loop often struggles with multi-step tool transitions, infinite loops, and exception handling during malformed tool responses.
 3. **Execution Limits & Error Boundaries:** Built-in recursion caps and isolated execution nodes prevent runaway API costs and facilitate granular tracing.
 
-#### LLM Selection: Groq (Open-Source 20B)
-1. **Inference Latency:** Multi-agent workflows require sequential tool calls where latency compounds. Groq’s LPU architecture provides near-instantaneous token generation, keeping end-to-end response times under 2 seconds.
+#### LLM Selection: Groq (openai/gpt-oss-20b)
+1. **Inference Latency:** Multi-agent workflows require sequential tool calls where latency compounds. Groq’s LPU architecture provides near-instantaneous token generation with `openai/gpt-oss-20b`, keeping end-to-end response times under 2 seconds.
 
-2. **Tool-Calling Reliability:** The chosen model is heavily fine-tuned for structured JSON outputs, ensuring strict compliance with the application's Pydantic schemas without hallucinating parameters.
+2. **Tool-Calling Reliability:** `openai/gpt-oss-20b` is fine-tuned for structured tool calling and JSON outputs, ensuring strict compliance with the application's Pydantic schemas without hallucinating parameters.
 
-3. **Resource Efficiency:** A 20B parameter model offers the optimal balance of deep reasoning for RAG synthesis while maintaining a low token footprint, preventing timeout errors during complex multi-turn graph executions.
+3. **Resource Efficiency:** The 20B parameter footprint offers the optimal balance of deep reasoning for RAG synthesis while maintaining a low token footprint, preventing timeout errors during complex multi-turn graph executions.
 
 ---
 
@@ -202,7 +202,7 @@ spendassist-chatbot/
 ├── .gitignore                 # Standard Python & virtualenv ignores
 ├── main.py                    # FastAPI application & REST endpoint routes
 ├── schemas.py                 # Pydantic request/response & tool schemas
-├── test_api.py                # Automated 9-scenario edge-case test suite
+├── test_api.py                # Automated 11-scenario edge-case test suite
 ├── pyproject.toml             # Project dependency specification (PEP 621)
 ├── agent/
 │   ├── __init__.py
@@ -350,16 +350,16 @@ flowchart TD
 
 ### Cost Analysis per 1,000 Chats
 
-Assuming an average conversation consists of **3 turns**, with 800 input tokens and 250 output tokens per turn:
+Assuming an average conversation consists of **3 turns**, with 800 input tokens and 250 output tokens per turn using Groq's hosted `openai/gpt-oss-20b` (20B parameter pricing tier):
 
 | Resource | Unit Cost | Usage / 1,000 Chats | Total Cost |
 |---|---|---|---|
-| **LLM Input Tokens (openai/gpt-oss-20b)** | $0.59 / 1M tokens | 2.4M tokens | $1.42 |
-| **LLM Output Tokens (openai/gpt-oss-20b)** | $0.79 / 1M tokens | 0.75M tokens | $0.59 |
+| **LLM Input Tokens (`openai/gpt-oss-20b`)** | $0.20 / 1M tokens | 2.4M tokens | $0.48 |
+| **LLM Output Tokens (`openai/gpt-oss-20b`)** | $0.25 / 1M tokens | 0.75M tokens | $0.19 |
 | **Embeddings (`all-MiniLM-L6-v2`)** | In-process CPU | Negligible (Local) | $0.00 |
 | **Compute (ECS Fargate 0.5 vCPU, 1GB RAM)** | $0.022 / hour | Shared capacity | $0.20 |
 | **Vector Store & Checkpointer** | Aurora Serverless / ElastiCache | Shared allocation | $0.35 |
-| **Total Estimated Cost per 1,000 Chats** | — | — | **~$2.56** ($0.0025 / chat) |
+| **Total Estimated Cost per 1,000 Chats** | — | — | **~$1.22** ($0.0012 / chat) |
 
 ### Horizontal Scaling Strategy
 1. **Stateless Compute:** FastAPI instances run inside Amazon ECS Fargate tasks behind an Application Load Balancer with CPU/Memory Target Tracking autoscaling (scale out when CPU > 70%).
